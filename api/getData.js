@@ -1,6 +1,13 @@
 import postgres from "postgres";
 
-const sql = postgres(process.env.NEON_DATABASE_URL, { ssl: "require" });
+const sql = postgres({
+  host: process.env.PGHOST,
+  port: process.env.PGPORT,
+  database: process.env.PGDATABASE,
+  username: process.env.PGUSER,
+  password: process.env.PGPASSWORD,
+  ssl: "require",
+});
 
 export default async function handler(req, res) {
   try {
