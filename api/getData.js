@@ -31,6 +31,6 @@ export default async function handler(req, res) {
     res.status(200).json(tablesAndRows);
   } catch (error) {
     console.error("Error fetching tables and rows:", error);
-    res.status(500).json({ error: "Failed to fetch tables and rows" });
+    res.status(500).json({ error: error });
   }
 }
