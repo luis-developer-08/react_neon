@@ -1,24 +1,20 @@
 import { useEffect, useState } from "react";
 
 function App() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    try {
-      fetch("/api/getData")
-        .then((response) => response.json())
-        .then((data) => {
-          setData(data);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-          setLoading(false);
-        });
-    } catch (error) {
-      console.log(error);
-    }
+    fetch("/api/getData")
+      .then((response) => response.json())
+      .then((data) => {
+        setData(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setLoading(false);
+      });
   }, []);
 
   if (loading) {
@@ -28,11 +24,30 @@ function App() {
   return (
     <div>
       <h1>Data from Neon Database</h1>
-      <ul>
-        {data.map((item) => (
-          <li key={item.id}>{item.column_name}</li>
-        ))}
-      </ul>
+      {Object.keys(data).map((tableName) => (
+        <div key={tableName}>
+          <h2>Table: {tableName}</h2>
+          <table border="1">
+            <thead>
+              <tr>
+                {data[tableName].length > 0 &&
+                  Object.keys(data[tableName][0]).map((column) => (
+                    <th key={column}>{column}</th>
+                  ))}
+              </tr>
+            </thead>
+            <tbody>
+              {data[tableName].map((row, rowIndex) => (
+                <tr key={rowIndex}>
+                  {Object.values(row).map((value, colIndex) => (
+                    <td key={colIndex}>{value}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ))}
     </div>
   );
 }
