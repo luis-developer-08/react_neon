@@ -23,11 +23,11 @@ function App() {
 
   return (
     <div>
-      <h1>Data from Neon Database</h1>
+      <h1 className="text-red-500">Data from Neon Database</h1>
       {Object.keys(data).map((tableName) => (
         <div key={tableName}>
           <h2>Table: {tableName}</h2>
-          <table border="1">
+          <table border="1" className="table table-sm">
             <thead>
               <tr>
                 {data[tableName].length > 0 &&
